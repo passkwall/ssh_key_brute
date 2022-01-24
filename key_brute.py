@@ -5,7 +5,6 @@ import paramiko
 from concurrent.futures import ThreadPoolExecutor
 
 FORMAT = '%(levelname)s: %(asctime)s - %(message)s'
-logging.disable(logging.ERROR)
 logging.basicConfig(format=FORMAT, level=logging.INFO, datefmt='%m/%d/%Y %I:%M:%S %p')
 
 usage = "python3 key_brute.py -iL 10.10.10.0/24 -f key1,key2 -u root,user1,user2 -t 20"
