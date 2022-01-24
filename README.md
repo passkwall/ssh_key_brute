@@ -17,6 +17,8 @@ pip3 install -r requirements
 
 ## Usage
 
+![](sample.png)
+
 The script allows a few things:
 - CIDR range of IP addresses
 - Usernames and private key files separated by commas
