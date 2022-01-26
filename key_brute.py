@@ -116,7 +116,7 @@ if __name__ == "__main__":
      FORMAT = '%(levelname)s: %(asctime)s - %(message)s'
      logging.basicConfig(
           filename=args.output, 
-          encoding='utf-8', 
+          # encoding='utf-8', 
           filemode='w',
           format=FORMAT, 
           level=logging.DEBUG, 
