@@ -2,10 +2,9 @@ import argparse
 import ipaddress
 import logging
 import paramiko
+import time
 from concurrent.futures import ThreadPoolExecutor
 
-FORMAT = '%(levelname)s: %(asctime)s - %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.INFO, datefmt='%m/%d/%Y %I:%M:%S %p')
 
 usage = "python3 key_brute.py -iL 10.10.10.0/24 -f key1,key2 -u root,user1,user2 -t 20"
 
@@ -38,7 +37,8 @@ parser.add_argument(
 parser.add_argument(
      "-u",
      dest="usernames",
-     action="store"
+     action="store",
+     required=True
 )
 
 
@@ -48,6 +48,14 @@ parser.add_argument(
      action="store",
      default=10
 )
+
+parser.add_argument(
+     "-o",
+     dest="output",
+     action="store",
+     default="ssh_brute_{}.log".format(str(time.time()).split('.')[0])
+)
+
 
 def check_args(args):
      ip_list = [x for x in ipaddress.ip_network(args.ip_list, False)]
@@ -105,6 +113,15 @@ def try_ssh_connect(ip, port, username, key_file):
 if __name__ == "__main__":
      args = parser.parse_args()
      ip_list, port, usernames, key_files = check_args(args)
+     FORMAT = '%(levelname)s: %(asctime)s - %(message)s'
+     logging.basicConfig(
+          filename=args.output, 
+          encoding='utf-8', 
+          filemode='w',
+          format=FORMAT, 
+          level=logging.DEBUG, 
+          datefmt='%m/%d/%Y %I:%M:%S %p', 
+          )
      successes = []
      logging.info("[*] Beginning attack...")
      with ThreadPoolExecutor(max_workers=int(args.threads)) as executor:
